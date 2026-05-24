@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Nderitu Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:   #FFFFFF;
+      --off:     #F7F7F7;
+      --grey-lt: #E8E8E8;
+      --grey:    #9A9A9A;
+      --grey-dk: #444444;
+      --black:   #0A0A0A;
+      --red:     #ED1C24;
+      --red-dk:  #C0141B;
+      --font:    'Roboto', sans-serif;
+      --ease:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV (identical to homepage) ─── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--grey-lt);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4rem;
+      height: 64px;
+      transition: height 0.3s var(--ease), box-shadow 0.3s;
+    }
+    nav.scrolled { height: 52px; box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
+
+    .masthead {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .masthead-dot { color: var(--red); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-dk);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--red); }
+
+    .nav-cta {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--red);
+      text-decoration: none;
+      padding: 0.55rem 1.4rem;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--red-dk); }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding-top: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 52vh;
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .page-hero-left {
+      background: var(--black);
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Large background letter */
+    .page-hero-left::before {
+      content: 'A';
+      position: absolute;
+      right: -0.1em;
+      bottom: -0.15em;
+      font-size: 22rem;
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none;
+      letter-spacing: -0.04em;
+    }
+
+    .page-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s var(--ease) forwards;
+    }
+
+    .page-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s var(--ease) forwards;
+    }
+
+    .page-title-light {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.35);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s var(--ease) forwards;
+    }
+
+    .page-hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--off);
+    }
+
+    .page-hero-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      opacity: 0;
+      animation: fadeIn 0.8s 0.4s var(--ease) forwards;
+    }
+
+    /* Red accent bottom strip */
+    .page-hero-right::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 35%; height: 4px;
+      background: var(--red);
+    }
+
+    /* ─── INTRO STRIP ─── */
+    .intro-strip {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .intro-aside {
+      padding: 4rem;
+      background: var(--off);
+      border-right: 1px solid var(--grey-lt);
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .aside-block-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .aside-block-val {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.6;
+    }
+
+    .aside-block-val a {
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .aside-block-val a:hover { text-decoration: underline; }
+
+    .intro-main {
+      padding: 4rem;
+    }
+
+    .intro-main .lead {
+      font-size: 1.35rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--black);
+      max-width: 58ch;
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--red);
+      padding-left: 1.5rem;
+    }
+
+    .intro-main p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--grey-dk);
+      line-height: 1.8;
+      max-width: 62ch;
+      margin-bottom: 1.25rem;
+    }
+
+    .intro-main p strong {
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    /* ─── TIMELINE / STORY ─── */
+    .story-section {
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .story-header {
+      padding: 3.5rem 4rem 2.5rem;
+      border-bottom: 1px solid var(--grey-lt);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--black);
+    }
+
+    .timeline {
+      padding: 0 4rem;
+    }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 3rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--grey-lt);
+      position: relative;
+    }
+    .tl-item:last-child { border-bottom: none; }
+
+    /* Connecting dot */
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: 136px;
+      top: 3.6rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .tl-year {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--grey);
+      padding-top: 0.2rem;
+      text-align: right;
+    }
+
+    .tl-content {}
+
+    .tl-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+    }
+
+    .tl-body {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--grey-dk);
+      line-height: 1.75;
+      max-width: 58ch;
+    }
+
+    .tl-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid rgba(237,28,36,0.3);
+      padding: 0.15rem 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    /* ─── EXPERTISE DOMAINS ─── */
+    .domains-section {
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .domains-header {
+      padding: 3.5rem 4rem 2.5rem;
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .domains-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 0;
+    }
+
+    .domain-card {
+      padding: 2.5rem 2.5rem;
+      border-right: 1px solid var(--grey-lt);
+      border-bottom: 1px solid var(--grey-lt);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s var(--ease);
+    }
+    .domain-card:nth-child(3),
+    .domain-card:nth-child(6) { border-right: none; }
+    .domain-card:nth-child(4),
+    .domain-card:nth-child(5),
+    .domain-card:nth-child(6) { border-bottom: none; }
+    .domain-card:hover { background: var(--off); }
+
+    .domain-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s var(--ease);
+    }
+    .domain-card:hover::before { transform: scaleX(1); }
+
+    .domain-num {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--grey-lt);
+      margin-bottom: 1.25rem;
+    }
+
+    .domain-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.65rem;
+      line-height: 1.3;
+    }
+
+    .domain-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
+    }
+
+    /* ─── VALUES ─── */
+    .values-section {
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .values-header {
+      padding: 3.5rem 4rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .values-header .section-label { color: rgba(255,255,255,0.3); }
+    .values-header .section-title { color: var(--white); }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 0;
+    }
+
+    .value-card {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .value-card:last-child { border-right: none; }
+
+    .value-num {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: rgba(237,28,36,0.2);
+      line-height: 1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .value-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .value-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+    }
+
+    /* ─── CTA STRIP ─── */
+    .about-cta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .about-cta-left {
+      padding: 4rem;
+      border-right: 1px solid var(--grey-lt);
+    }
+
+    .about-cta-left h3 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      color: var(--black);
+      margin-bottom: 0.25rem;
+    }
+
+    .about-cta-left p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--grey);
+      margin-bottom: 2rem;
+      max-width: 42ch;
+      line-height: 1.7;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--red); transform: translateY(-1px); }
+
+    .about-cta-right {
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .contact-line {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .contact-line-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .contact-line-val {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--black);
+    }
+
+    .contact-line-val a {
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .contact-line-val a:hover { text-decoration: underline; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--white);
+    }
+    .footer-brand .dot { color: var(--red); }
+
+    .footer-sub {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      margin-top: 0.2rem;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--red); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+
+      .page-hero { grid-template-columns: 1fr; min-height: auto; }
+      .page-hero-left { padding: 5rem 1.5rem 3rem; min-height: 40vw; }
+      .page-hero-right { height: 65vw; }
+
+      .intro-strip { grid-template-columns: 1fr; }
+      .intro-aside { padding: 2.5rem 1.5rem; border-right: none; border-bottom: 1px solid var(--grey-lt); flex-direction: row; flex-wrap: wrap; gap: 2rem; }
+      .intro-main { padding: 2.5rem 1.5rem; }
+
+      .story-header { padding: 2.5rem 1.5rem 2rem; }
+      .timeline { padding: 0 1.5rem; }
+      .tl-item { grid-template-columns: 80px 1fr; gap: 1.5rem; }
+      .tl-item::before { left: 76px; }
+
+      .domains-header { padding: 2.5rem 1.5rem 2rem; }
+      .domains-grid { grid-template-columns: 1fr 1fr; }
+      .domain-card:nth-child(3) { border-right: 1px solid var(--grey-lt); }
+      .domain-card:nth-child(2),
+      .domain-card:nth-child(4) { border-right: none; }
+      .domain-card:nth-child(4),
+      .domain-card:nth-child(5) { border-bottom: 1px solid var(--grey-lt); }
+      .domain-card:nth-child(5),
+      .domain-card:nth-child(6) { border-bottom: none; }
+
+      .values-header { padding: 2.5rem 1.5rem 2rem; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .value-card { border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+      .about-cta { grid-template-columns: 1fr; }
+      .about-cta-left,
+      .about-cta-right { padding: 2.5rem 1.5rem; border-right: none; border-bottom: 1px solid var(--grey-lt); }
+
+      footer { flex-direction: column; gap: 1.5rem; padding: 2rem 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="masthead">NDERITU<span class="masthead-dot">.</span>DIGITAL</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Work With Me</a>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-left">
+      <p class="page-label">About</p>
+      <h1 class="page-title">The man</h1>
+      <p class="page-title-light">behind the strategy.</p>
+    </div>
+    <div class="page-hero-right">
+      <img
+        class="page-hero-photo"
+        src="https://i.imgur.com/r9uAcz8.jpg"
+        alt="Nderitu — Digital Media Strategist"
+        onerror="this.style.display='none'; this.parentElement.style.background='#E8E8E8';"
+      />
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro-strip">
+    <aside class="intro-aside reveal">
+      <div>
+        <p class="aside-block-label">Based in</p>
+        <p class="aside-block-val">Nairobi, Kenya<br>Serving Africa &amp; Beyond</p>
+      </div>
+      <div>
+        <p class="aside-block-label">Agencies</p>
+        <p class="aside-block-val">
+          Pinkfoot Consult Limited<br>
+          Photomagic Studio Limited
+        </p>
+      </div>
+      <div>
+        <p class="aside-block-label">Focus areas</p>
+        <p class="aside-block-val">
+          Digital Media Strategy<br>
+          Content &amp; Communications<br>
+          Corporate AV Production<br>
+          Training &amp; Mentorship
+        </p>
+      </div>
+      <div>
+        <p class="aside-block-label">Connect</p>
+        <p class="aside-block-val">
+          <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn →</a>
+        </p>
+      </div>
+    </aside>
+    <div class="intro-main reveal">
+      <p class="lead">
+        For over two decades I have worked at the intersection of creativity and communications — helping organizations tell stories that matter and professionals build influence that lasts.
+      </p>
+      <p>
+        My journey began in the craft disciplines — <strong>graphic design, photography, and videography</strong> — where I developed a deep understanding of how visual storytelling moves people. Through <strong>Pinkfoot Consult Limited</strong>, I built a creative agency rooted in design excellence, and through <strong>Photomagic Studio Limited</strong>, I delivered high-quality audiovisual services to some of Kenya's leading corporate clients.
+      </p>
+      <p>
+        Now I am in the middle of a deliberate evolution. I am stepping fully into <strong>digital media strategy and thought leadership</strong> — bringing two decades of creative execution to a bigger mission: helping organizations and professionals lead in the digital-first era with clarity, authority, and purpose.
+      </p>
+      <p>
+        My work sits at the crossroads of content, communications, and community. I believe that in today's world, <strong>your story is your strategy</strong> — and I exist to help you tell it at scale.
+      </p>
+    </div>
+  </section>
+
+  <!-- STORY / TIMELINE -->
+  <section class="story-section">
+    <div class="story-header reveal">
+      <div>
+        <p class="section-label">The Journey</p>
+        <h2 class="section-title">Two decades in the making.</h2>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-year">Early 2000s</div>
+        <div class="tl-content">
+          <span class="tl-tag">Origins</span>
+          <h3 class="tl-title">Mastering the creative disciplines</h3>
+          <p class="tl-body">Built a foundation across graphic design, photography, and videography — learning the principles of visual communication that still underpin everything I do today.</p>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2005 — 2015</div>
+        <div class="tl-content">
+          <span class="tl-tag">Agency</span>
+          <h3 class="tl-title">Founding Pinkfoot Consult Limited</h3>
+          <p class="tl-body">Established a creative agency rooted in design excellence, serving corporate clients across Kenya. Developed a reputation for quality, precision, and strategic thinking in visual communications.</p>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2010 — 2020</div>
+        <div class="tl-content">
+          <span class="tl-tag">Production</span>
+          <h3 class="tl-title">Photomagic Studio Limited</h3>
+          <p class="tl-body">Launched a dedicated audiovisual production house, delivering high-quality photography and video services for corporate campaigns, executive profiles, and brand storytelling.</p>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2020 — Present</div>
+        <div class="tl-content">
+          <span class="tl-tag">Evolution</span>
+          <h3 class="tl-title">Stepping into digital strategy &amp; thought leadership</h3>
+          <p class="tl-body">Evolving from creative execution to strategic leadership — building Nderitu Digital as a platform for digital media strategy, content consulting, training, and thought leadership across Africa and beyond.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE DOMAINS -->
+  <section class="domains-section">
+    <div class="domains-header reveal">
+      <p class="section-label">Expertise</p>
+      <h2 class="section-title">What I bring to the table.</h2>
+    </div>
+    <div class="domains-grid">
+      <div class="domain-card reveal">
+        <div class="domain-num">01</div>
+        <h3 class="domain-title">Content Creation &amp; Curation</h3>
+        <p class="domain-desc">Designing, producing, and repurposing content for maximum reach across platforms — from long-form articles to short-form video.</p>
+      </div>
+      <div class="domain-card reveal">
+        <div class="domain-num">02</div>
+        <h3 class="domain-title">Digital Media Communications</h3>
+        <p class="domain-desc">Crafting narratives that resonate across platforms — brand voice, corporate communications, and editorial strategy.</p>
+      </div>
+      <div class="domain-card reveal">
+        <div class="domain-num">03</div>
+        <h3 class="domain-title">Social Media Strategy</h3>
+        <p class="domain-desc">Building visibility, authority, and engagement for organizations and individuals seeking to lead the conversation in their industry.</p>
+      </div>
+      <div class="domain-card reveal">
+        <div class="domain-num">04</div>
+        <h3 class="domain-title">Corporate Photography &amp; Videography</h3>
+        <p class="domain-desc">Professional audiovisual storytelling — executive portraits, corporate events, campaign production, and brand films.</p>
+      </div>
+      <div class="domain-card reveal">
+        <div class="domain-num">05</div>
+        <h3 class="domain-title">Training &amp; Mentorship</h3>
+        <p class="domain-desc">Equipping professionals and teams with digital-first skills through bootcamps, masterclasses, and one-on-one mentorship.</p>
+      </div>
+      <div class="domain-card reveal">
+        <div class="domain-num">06</div>
+        <h3 class="domain-title">Thought Leadership</h3>
+        <p class="domain-desc">Helping executives and organizations establish subject matter authority — through publishing, speaking, and community building.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values-section">
+    <div class="values-header reveal">
+      <p class="section-label">What I Stand For</p>
+      <h2 class="section-title">Principles that guide the work.</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-num">01</div>
+        <h3 class="value-title">Clarity over complexity</h3>
+        <p class="value-desc">The best communication is the simplest version of the truth. I strip away the noise and make the message land.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-num">02</div>
+        <h3 class="value-title">Creativity with purpose</h3>
+        <p class="value-desc">Every creative decision should serve a strategic goal. Beautiful work that doesn't move the needle is decoration, not communication.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-num">03</div>
+        <h3 class="value-title">Africa as the context</h3>
+        <p class="value-desc">I build for an African audience first — understanding the culture, the platforms, and the unique opportunity of this moment on the continent.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-num">04</div>
+        <h3 class="value-title">Consistency builds authority</h3>
+        <p class="value-desc">Influence is not built in a single post. It is built through sustained, quality output over time — and I help clients commit to that long game.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT CTA -->
+  <section class="about-cta">
+    <div class="about-cta-left reveal">
+      <h3>Ready to work together?</h3>
+      <p>Whether you need a strategy, a production partner, or someone to train your team — let's start a conversation.</p>
+      <a href="contact.html" class="btn-primary">Get in Touch</a>
+    </div>
+    <div class="about-cta-right reveal">
+      <div class="contact-line">
+        <span class="contact-line-label">Location</span>
+        <span class="contact-line-val">Nairobi, Kenya</span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-line-label">Available for</span>
+        <span class="contact-line-val">Consulting · Training · Speaking · Production</span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-line-label">LinkedIn</span>
+        <span class="contact-line-val"><a href="https://linkedin.com" target="_blank" rel="noopener">Connect on LinkedIn →</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">NDERITU<span class="dot">.</span>DIGITAL</div>
+      <div class="footer-sub">Nairobi, Kenya &nbsp;·&nbsp; Africa &amp; Beyond</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
