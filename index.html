@@ -5,588 +5,569 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nderitu Digital — Digital Media Strategist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:    #0E0E0E;
-      --paper:  #F5F0E8;
-      --gold:   #C8923A;
-      --gold-lt:#E8B96A;
-      --muted:  #6B6458;
-      --line:   rgba(14,14,14,0.12);
-      --serif:  'Playfair Display', Georgia, serif;
-      --sans:   'DM Sans', sans-serif;
+      --white:   #FFFFFF;
+      --off:     #F7F7F7;
+      --grey-lt: #E8E8E8;
+      --grey:    #9A9A9A;
+      --grey-dk: #444444;
+      --black:   #0A0A0A;
+      --red:     #ED1C24;   /* CMYK red: C0 M100 Y100 K7  */
+      --red-dk:  #C0141B;
+      --font:    'Roboto', sans-serif;
+      --ease:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--sans);
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.6;
       overflow-x: hidden;
     }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.5;
-    }
-
-    /* ── NAV ── */
+    /* ─── NAV ─── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--grey-lt);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.25rem 4rem;
-      background: rgba(245,240,232,0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-      transition: padding 0.3s;
+      padding: 0 4rem;
+      height: 64px;
+      transition: height 0.3s var(--ease), box-shadow 0.3s;
     }
+    nav.scrolled { height: 52px; box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
 
     .masthead {
-      font-family: var(--serif);
+      font-size: 1.15rem;
       font-weight: 900;
-      font-size: 1.25rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
+      letter-spacing: -0.01em;
+      color: var(--black);
       text-decoration: none;
-    }
-
-    .masthead span { color: var(--gold); }
-
-    .nav-links {
       display: flex;
-      gap: 2.5rem;
-      list-style: none;
+      align-items: center;
+      gap: 0;
     }
+    .masthead-dot { color: var(--red); }
 
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--ink); }
-
-    .nav-cta {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--ink);
+      color: var(--grey-dk);
       text-decoration: none;
-      border: 1px solid var(--ink);
-      padding: 0.5rem 1.25rem;
-      transition: background 0.2s, color 0.2s;
+      transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--red); }
 
-    .nav-cta:hover { background: var(--ink); color: var(--paper); }
+    .nav-cta {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--red);
+      text-decoration: none;
+      padding: 0.55rem 1.4rem;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--red-dk); }
 
-    /* ── HERO ── */
+    /* ─── HERO ─── */
     .hero {
       min-height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      padding-top: 5rem;
+      padding-top: 64px;
     }
 
+    /* Left — text */
     .hero-left {
       display: flex;
       flex-direction: column;
       justify-content: center;
       padding: 5rem 4rem 5rem 4rem;
-      border-right: 1px solid var(--line);
+      position: relative;
+    }
+
+    /* Red accent bar on left edge */
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 15%; bottom: 15%;
+      width: 3px;
+      background: var(--red);
     }
 
     .hero-eyebrow {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 500;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
+      color: var(--red);
+      margin-bottom: 1.75rem;
       opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
+      animation: fadeUp 0.7s 0.1s var(--ease) forwards;
     }
 
     .hero-title {
-      font-family: var(--serif);
-      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-size: clamp(2.6rem, 5vw, 5rem);
       font-weight: 900;
-      line-height: 1.02;
+      line-height: 1.0;
       letter-spacing: -0.03em;
-      margin-bottom: 2rem;
+      color: var(--black);
+      margin-bottom: 0.5rem;
       opacity: 0;
-      animation: fadeUp 0.8s 0.4s forwards;
+      animation: fadeUp 0.7s 0.25s var(--ease) forwards;
     }
 
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
+    .hero-title-light {
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--grey-dk);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s var(--ease) forwards;
+    }
+
+    /* Red underline accent on a key word */
+    .u-red {
+      position: relative;
+      display: inline-block;
+    }
+    .u-red::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 100%; height: 3px;
+      background: var(--red);
     }
 
     .hero-body {
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 42ch;
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--grey-dk);
+      max-width: 44ch;
+      line-height: 1.75;
       margin-bottom: 3rem;
       opacity: 0;
-      animation: fadeUp 0.8s 0.6s forwards;
+      animation: fadeUp 0.7s 0.5s var(--ease) forwards;
     }
 
     .hero-actions {
       display: flex;
-      gap: 1.25rem;
+      gap: 1rem;
       align-items: center;
+      flex-wrap: wrap;
       opacity: 0;
-      animation: fadeUp 0.8s 0.8s forwards;
+      animation: fadeUp 0.7s 0.65s var(--ease) forwards;
     }
 
     .btn-primary {
-      background: var(--ink);
-      color: var(--paper);
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       text-decoration: none;
-      padding: 0.9rem 2rem;
+      padding: 0.85rem 2rem;
       transition: background 0.2s, transform 0.15s;
       display: inline-block;
     }
+    .btn-primary:hover { background: var(--red); transform: translateY(-1px); }
 
-    .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
-
-    .btn-ghost {
-      font-size: 0.78rem;
+    .btn-outline {
+      border: 1.5px solid var(--grey-lt);
+      color: var(--grey-dk);
+      font-family: var(--font);
+      font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--muted);
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.2s;
+      padding: 0.85rem 2rem;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
     }
+    .btn-outline:hover { border-color: var(--black); color: var(--black); }
 
-    .btn-ghost:hover { color: var(--ink); }
-    .btn-ghost::after { content: '→'; transition: transform 0.2s; }
-    .btn-ghost:hover::after { transform: translateX(4px); }
-
+    /* Right — photo */
     .hero-right {
       position: relative;
+      background: var(--off);
       overflow: hidden;
-      background: var(--ink);
-      display: flex;
-      align-items: flex-end;
     }
 
-    .hero-image-placeholder {
+    .hero-photo {
       width: 100%;
       height: 100%;
-      background:
-        linear-gradient(160deg, #1a1612 0%, #0E0E0E 60%),
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 40px,
-          rgba(200,146,58,0.04) 40px,
-          rgba(200,146,58,0.04) 41px
-        );
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 3rem;
-    }
-
-    /* Large decorative initials */
-    .hero-monogram {
-      font-family: var(--serif);
-      font-size: clamp(8rem, 18vw, 18rem);
-      font-weight: 900;
-      font-style: italic;
-      line-height: 0.9;
-      color: rgba(200,146,58,0.12);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      user-select: none;
-      letter-spacing: -0.04em;
-      white-space: nowrap;
-    }
-
-    .hero-caption {
-      position: relative;
-      z-index: 2;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
       opacity: 0;
-      animation: fadeUp 0.8s 1s forwards;
+      animation: fadeIn 0.9s 0.5s var(--ease) forwards;
     }
 
-    .hero-caption p {
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.4);
-      margin-bottom: 0.35rem;
+    /* Geometric red accent on photo */
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 40%;
+      height: 4px;
+      background: var(--red);
     }
 
-    .hero-caption strong {
-      font-family: var(--serif);
-      font-size: 1.1rem;
+    /* Name card over photo */
+    .hero-name-card {
+      position: absolute;
+      bottom: 2.5rem;
+      left: -1px;
+      background: var(--white);
+      padding: 1rem 1.5rem 1rem 1.25rem;
+      border-left: 3px solid var(--red);
+      opacity: 0;
+      animation: slideRight 0.6s 1s var(--ease) forwards;
+    }
+    .hero-name-card strong {
+      display: block;
+      font-size: 1rem;
       font-weight: 700;
-      color: var(--paper);
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+    .hero-name-card span {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--grey);
+      letter-spacing: 0.06em;
     }
 
-    /* ── TICKER ── */
+    /* ─── TICKER ─── */
     .ticker {
-      background: var(--ink);
-      color: var(--paper);
-      padding: 0.75rem 0;
+      background: var(--black);
+      padding: 0.7rem 0;
       overflow: hidden;
-      border-top: 1px solid rgba(200,146,58,0.3);
     }
-
     .ticker-track {
       display: flex;
-      gap: 0;
-      animation: ticker 30s linear infinite;
+      animation: ticker 35s linear infinite;
       white-space: nowrap;
     }
-
     .ticker-item {
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 0 3rem;
-      color: rgba(245,240,232,0.6);
-      flex-shrink: 0;
-    }
-
-    .ticker-item span { color: var(--gold); margin-right: 3rem; }
-
-    @keyframes ticker {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    /* ── ABOUT STRIP ── */
-    .about-strip {
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .about-label {
-      padding: 4rem;
-      border-right: 1px solid var(--line);
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .section-number {
-      font-family: var(--serif);
-      font-size: 4rem;
-      font-weight: 900;
-      line-height: 1;
-      color: rgba(14,14,14,0.08);
-      flex-shrink: 0;
-    }
-
-    .section-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
-      padding-top: 0.35rem;
+      color: rgba(255,255,255,0.45);
+      padding: 0 2.5rem;
+      flex-shrink: 0;
     }
+    .ticker-item .dot { color: var(--red); margin-right: 2.5rem; }
 
-    .about-content {
-      padding: 4rem;
-    }
-
-    .about-content h2 {
-      font-family: var(--serif);
-      font-size: clamp(1.8rem, 3vw, 2.8rem);
+    /* ─── SECTION COMMONS ─── */
+    .section-label {
+      font-size: 0.65rem;
       font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
     }
 
-    .about-content p {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 60ch;
-      margin-bottom: 1rem;
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid var(--line);
-    }
-
-    .stat-number {
-      font-family: var(--serif);
-      font-size: 3rem;
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
       font-weight: 900;
-      line-height: 1;
-      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--black);
       margin-bottom: 0.35rem;
     }
 
-    .stat-number sup { font-size: 1.2rem; }
+    .section-title-light {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      color: var(--grey-dk);
+      margin-bottom: 1.5rem;
+    }
 
-    .stat-desc {
-      font-size: 0.8rem;
-      color: var(--muted);
+    hr.rule { border: none; border-top: 1px solid var(--grey-lt); margin: 0; }
+
+    /* ─── ABOUT ─── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      border-top: 1px solid var(--grey-lt);
+      border-bottom: 1px solid var(--grey-lt);
+    }
+
+    .about-sidebar {
+      padding: 5rem 3rem 5rem 4rem;
+      border-right: 1px solid var(--grey-lt);
+      background: var(--off);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-number {
+      font-size: 7rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--grey-lt);
+      letter-spacing: -0.04em;
+      margin-bottom: auto;
+    }
+
+    .about-stat-stack { display: flex; flex-direction: column; gap: 2rem; }
+
+    .about-stat-val {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .about-stat-val sup { font-size: 1rem; font-weight: 400; }
+    .about-stat-label {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--grey);
+      margin-top: 0.2rem;
       letter-spacing: 0.04em;
     }
 
-    /* ── EXPERTISE ── */
-    .expertise {
-      border-bottom: 1px solid var(--line);
+    .about-main {
+      padding: 5rem 4rem;
     }
 
-    .expertise-header {
-      padding: 3rem 4rem 2rem;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
+    .about-main p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--grey-dk);
+      line-height: 1.8;
+      max-width: 60ch;
+      margin-bottom: 1.25rem;
     }
 
-    .expertise-header h2 {
-      font-family: var(--serif);
-      font-size: 2rem;
+    .about-main p strong {
       font-weight: 700;
-      letter-spacing: -0.02em;
+      color: var(--black);
     }
 
-    .expertise-header a {
+    .text-link {
       font-size: 0.75rem;
+      font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--red);
       text-decoration: none;
-      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      transition: gap 0.2s;
     }
+    .text-link:hover { gap: 0.7rem; }
+    .text-link::after { content: '→'; }
 
-    .expertise-header a:hover { color: var(--gold); }
+    /* ─── EXPERTISE ─── */
+    .expertise { border-bottom: 1px solid var(--grey-lt); }
+
+    .expertise-header {
+      padding: 3.5rem 4rem 2.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--grey-lt);
+    }
 
     .expertise-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
     }
 
-    .expertise-card {
-      padding: 2.5rem 2rem;
-      border-right: 1px solid var(--line);
-      transition: background 0.25s;
-      cursor: default;
+    .e-card {
+      padding: 2.5rem 2rem 2.5rem;
+      border-right: 1px solid var(--grey-lt);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s var(--ease);
     }
+    .e-card:last-child { border-right: none; }
 
-    .expertise-card:last-child { border-right: none; }
-    .expertise-card:hover { background: var(--ink); }
-    .expertise-card:hover .card-number,
-    .expertise-card:hover .card-title,
-    .expertise-card:hover .card-desc { color: var(--paper); }
-    .expertise-card:hover .card-title { color: var(--gold-lt); }
-
-    .card-number {
-      font-family: var(--serif);
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      margin-bottom: 1.5rem;
-      transition: color 0.25s;
+    .e-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s var(--ease);
     }
+    .e-card:hover::before { transform: scaleX(1); }
+    .e-card:hover { background: var(--off); }
 
-    .card-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .card-title {
-      font-family: var(--serif);
-      font-size: 1.2rem;
+    .e-num {
+      font-size: 0.65rem;
       font-weight: 700;
-      line-height: 1.2;
+      letter-spacing: 0.2em;
+      color: var(--grey);
+      margin-bottom: 2rem;
+    }
+
+    .e-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--black);
       margin-bottom: 0.75rem;
-      transition: color 0.25s;
     }
 
-    .card-desc {
+    .e-desc {
       font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.65;
-      transition: color 0.25s;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
     }
 
-    /* ── BLOG PREVIEW ── */
-    .blog-section {
-      border-bottom: 1px solid var(--line);
-    }
+    /* ─── BLOG ─── */
+    .blog { border-bottom: 1px solid var(--grey-lt); }
 
     .blog-header {
-      padding: 3rem 4rem 2rem;
+      padding: 3.5rem 4rem 2.5rem;
       display: flex;
-      align-items: baseline;
+      align-items: flex-end;
       justify-content: space-between;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--grey-lt);
     }
-
-    .blog-header h2 {
-      font-family: var(--serif);
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .blog-header a {
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .blog-header a:hover { color: var(--gold); }
 
     .blog-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-columns: 1.6fr 1fr 1fr;
     }
 
-    .blog-card {
-      padding: 2.5rem 2.5rem;
-      border-right: 1px solid var(--line);
+    .b-card {
+      padding: 2.5rem;
+      border-right: 1px solid var(--grey-lt);
       text-decoration: none;
       color: inherit;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
       transition: background 0.2s;
     }
+    .b-card:last-child { border-right: none; }
+    .b-card:hover { background: var(--off); }
 
-    .blog-card:last-child { border-right: none; }
-    .blog-card:hover { background: rgba(200,146,58,0.05); }
-
-    .blog-tag {
-      display: inline-block;
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(200,146,58,0.4);
-      padding: 0.2rem 0.6rem;
-      margin-bottom: 1rem;
-    }
-
-    .blog-date {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-    }
-
-    .blog-title {
-      font-family: var(--serif);
+    .b-tag {
+      font-size: 0.62rem;
       font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
-    }
-
-    .blog-card:first-child .blog-title { font-size: 1.5rem; }
-    .blog-card:not(:first-child) .blog-title { font-size: 1.1rem; }
-
-    .blog-excerpt {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    .blog-read {
-      display: inline-block;
-      margin-top: 1.25rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--red);
     }
 
-    /* ── CTA BAND ── */
+    .b-title {
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--black);
+    }
+    .b-card:first-child .b-title { font-size: 1.2rem; }
+    .b-card:not(:first-child) .b-title { font-size: 0.95rem; }
+
+    .b-excerpt {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .b-meta {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--grey);
+      letter-spacing: 0.05em;
+      margin-top: auto;
+    }
+
+    /* ─── CTA BAND ─── */
     .cta-band {
-      background: var(--ink);
       display: grid;
       grid-template-columns: 1fr 1fr;
+      background: var(--black);
     }
 
     .cta-left {
       padding: 5rem 4rem;
-      border-right: 1px solid rgba(245,240,232,0.1);
+      border-right: 1px solid rgba(255,255,255,0.06);
     }
+
+    .cta-left .section-label { color: rgba(255,255,255,0.3); }
 
     .cta-left h2 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 900;
-      font-style: italic;
-      color: var(--paper);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 0.25rem;
     }
 
-    .cta-left h2 em { color: var(--gold); font-style: normal; }
-
-    .cta-left p {
-      color: rgba(245,240,232,0.5);
-      font-size: 1rem;
-      max-width: 40ch;
+    .cta-left h2 + p {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.35);
       margin-bottom: 2.5rem;
     }
 
-    .btn-gold {
-      background: var(--gold);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
+    .cta-left .sub {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      max-width: 40ch;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-red {
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       text-decoration: none;
-      padding: 0.9rem 2rem;
+      padding: 0.85rem 2rem;
       display: inline-block;
       transition: background 0.2s, transform 0.15s;
     }
-
-    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .btn-red:hover { background: var(--red-dk); transform: translateY(-1px); }
 
     .cta-right {
       padding: 5rem 4rem;
@@ -595,117 +576,111 @@
       justify-content: center;
     }
 
-    .cta-right p {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.35);
-      margin-bottom: 2rem;
-    }
+    .cta-right .section-label { color: rgba(255,255,255,0.25); margin-bottom: 2rem; }
 
-    .service-list {
-      list-style: none;
-    }
-
+    .service-list { list-style: none; }
     .service-list li {
-      font-family: var(--serif);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: rgba(245,240,232,0.7);
-      padding: 0.85rem 0;
-      border-bottom: 1px solid rgba(245,240,232,0.08);
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
       display: flex;
       align-items: center;
       justify-content: space-between;
       transition: color 0.2s;
       cursor: default;
     }
+    .service-list li:hover { color: var(--white); }
+    .service-list li span { color: var(--red); font-size: 0.9rem; }
 
-    .service-list li:hover { color: var(--gold-lt); }
-    .service-list li::after { content: '→'; font-family: var(--sans); font-size: 0.9rem; opacity: 0.4; }
-
-    /* ── FOOTER ── */
+    /* ─── FOOTER ─── */
     footer {
-      background: var(--ink);
-      border-top: 1px solid rgba(200,146,58,0.2);
-      padding: 2.5rem 4rem;
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     .footer-brand {
-      font-family: var(--serif);
+      font-size: 0.95rem;
       font-weight: 900;
-      font-size: 1rem;
-      color: var(--paper);
+      color: var(--white);
+      letter-spacing: -0.01em;
     }
+    .footer-brand .dot { color: var(--red); }
 
-    .footer-brand span { color: var(--gold); }
-
-    .footer-tagline {
-      font-size: 0.75rem;
-      color: rgba(245,240,232,0.3);
-      letter-spacing: 0.1em;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .footer-links a {
+    .footer-sub {
       font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      margin-top: 0.2rem;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a {
+      font-size: 0.68rem;
+      font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(245,240,232,0.4);
+      color: rgba(255,255,255,0.3);
       text-decoration: none;
       transition: color 0.2s;
     }
+    .footer-links a:hover { color: var(--red); }
 
-    .footer-links a:hover { color: var(--gold); }
-
-    /* ── ANIMATIONS ── */
+    /* ─── ANIMATIONS ─── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
     .reveal {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(18px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
     }
+    .reveal.in { opacity: 1; transform: none; }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      nav { padding: 0 1.5rem; }
       .nav-links { display: none; }
 
       .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 6rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--line); }
-      .hero-right { height: 40vmin; }
+      .hero-left { padding: 5rem 1.5rem 3rem; }
+      .hero-left::before { display: none; }
+      .hero-right { height: 70vw; }
 
-      .about-strip { grid-template-columns: 1fr; }
-      .about-label { padding: 2rem 1.5rem; border-right: none; border-bottom: 1px solid var(--line); }
-      .about-content { padding: 2rem 1.5rem; }
-      .stat-row { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+      .about { grid-template-columns: 1fr; }
+      .about-sidebar { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid var(--grey-lt); flex-direction: row; align-items: center; flex-wrap: wrap; gap: 2rem; }
+      .about-number { font-size: 4rem; }
+      .about-main { padding: 3rem 1.5rem; }
 
-      .expertise-header, .blog-header { padding: 2rem 1.5rem 1.5rem; }
+      .expertise-header, .blog-header { padding: 2.5rem 1.5rem 2rem; }
       .expertise-grid { grid-template-columns: 1fr 1fr; }
-      .expertise-card { border-bottom: 1px solid var(--line); }
+      .e-card { border-bottom: 1px solid var(--grey-lt); }
 
       .blog-grid { grid-template-columns: 1fr; }
-      .blog-card { border-right: none; border-bottom: 1px solid var(--line); }
+      .b-card { border-right: none; border-bottom: 1px solid var(--grey-lt); }
 
       .cta-band { grid-template-columns: 1fr; }
-      .cta-left, .cta-right { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid rgba(245,240,232,0.08); }
+      .cta-left, .cta-right { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
 
       footer { flex-direction: column; gap: 1.5rem; padding: 2rem 1.5rem; text-align: center; }
     }
@@ -714,8 +689,8 @@
 <body>
 
   <!-- NAV -->
-  <nav>
-    <a href="/" class="masthead">Nderitu<span>.</span>Digital</a>
+  <nav id="nav">
+    <a href="/" class="masthead">NDERITU<span class="masthead-dot">.</span>DIGITAL</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#expertise">Expertise</a></li>
@@ -729,26 +704,26 @@
   <section class="hero">
     <div class="hero-left">
       <p class="hero-eyebrow">Digital Media Strategist &amp; Thought Leader</p>
-      <h1 class="hero-title">
-        Shaping<br>
-        <em>narratives</em><br>
-        that move<br>Africa forward.
-      </h1>
+      <h1 class="hero-title">Shaping <span class="u-red">narratives</span></h1>
+      <p class="hero-title-light">that move Africa forward.</p>
       <p class="hero-body">
-        I help organizations and professionals harness the power of digital communications — transforming ideas into content that builds influence, authority, and lasting impact.
+        I help organizations and professionals harness digital communications — transforming ideas into content that builds influence, authority, and lasting impact.
       </p>
       <div class="hero-actions">
         <a href="#blog" class="btn-primary">Read My Insights</a>
-        <a href="#expertise" class="btn-ghost">Explore Services</a>
+        <a href="#expertise" class="btn-outline">Explore Services</a>
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-image-placeholder">
-        <div class="hero-monogram">N</div>
-        <div class="hero-caption">
-          <p>Founder &amp; Principal Strategist</p>
-          <strong>Pinkfoot Consult Limited</strong>
-        </div>
+      <img
+        class="hero-photo"
+        src="https://i.imgur.com/r9uAcz8.jpg"
+        alt="Nderitu — Digital Media Strategist"
+        onerror="this.style.display='none'; this.parentElement.style.background='#E8E8E8';"
+      />
+      <div class="hero-name-card">
+        <strong>Nderitu</strong>
+        <span>Founder, Pinkfoot Consult Limited</span>
       </div>
     </div>
   </section>
@@ -756,117 +731,114 @@
   <!-- TICKER -->
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
-      <span class="ticker-item"><span>✦</span> Digital Media Strategy</span>
-      <span class="ticker-item"><span>✦</span> Content Creation &amp; Curation</span>
-      <span class="ticker-item"><span>✦</span> Corporate Photography &amp; Videography</span>
-      <span class="ticker-item"><span>✦</span> Social Media Authority</span>
-      <span class="ticker-item"><span>✦</span> Training &amp; Masterclasses</span>
-      <span class="ticker-item"><span>✦</span> Thought Leadership</span>
-      <!-- duplicate for seamless loop -->
-      <span class="ticker-item"><span>✦</span> Digital Media Strategy</span>
-      <span class="ticker-item"><span>✦</span> Content Creation &amp; Curation</span>
-      <span class="ticker-item"><span>✦</span> Corporate Photography &amp; Videography</span>
-      <span class="ticker-item"><span>✦</span> Social Media Authority</span>
-      <span class="ticker-item"><span>✦</span> Training &amp; Masterclasses</span>
-      <span class="ticker-item"><span>✦</span> Thought Leadership</span>
+      <span class="ticker-item"><span class="dot">●</span>Digital Media Strategy</span>
+      <span class="ticker-item"><span class="dot">●</span>Content Creation &amp; Curation</span>
+      <span class="ticker-item"><span class="dot">●</span>Corporate Photography &amp; Videography</span>
+      <span class="ticker-item"><span class="dot">●</span>Social Media Authority</span>
+      <span class="ticker-item"><span class="dot">●</span>Training &amp; Masterclasses</span>
+      <span class="ticker-item"><span class="dot">●</span>Thought Leadership</span>
+      <span class="ticker-item"><span class="dot">●</span>Digital Media Strategy</span>
+      <span class="ticker-item"><span class="dot">●</span>Content Creation &amp; Curation</span>
+      <span class="ticker-item"><span class="dot">●</span>Corporate Photography &amp; Videography</span>
+      <span class="ticker-item"><span class="dot">●</span>Social Media Authority</span>
+      <span class="ticker-item"><span class="dot">●</span>Training &amp; Masterclasses</span>
+      <span class="ticker-item"><span class="dot">●</span>Thought Leadership</span>
     </div>
   </div>
 
-  <!-- ABOUT STRIP -->
-  <section class="about-strip" id="about">
-    <div class="about-label reveal">
-      <div class="section-number">01</div>
-      <div class="section-label">About</div>
-    </div>
-    <div class="about-content reveal">
-      <h2>Two decades of creative mastery, now driving strategy.</h2>
-      <p>
-        Through Pinkfoot Consult Limited and Photomagic Studio, I built a reputation for design excellence and high-quality audiovisual storytelling for corporate Kenya and beyond.
-      </p>
-      <p>
-        Now I am evolving that foundation into something bigger — a full-service digital media powerhouse that integrates design, content strategy, and communications to help organizations lead in the digital-first era.
-      </p>
-      <a href="about.html" class="btn-ghost" style="font-size:0.78rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; margin-top:1rem; transition:color 0.2s;">
-        Full story
-      </a>
-      <div class="stat-row">
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-sidebar reveal">
+      <div class="about-number">01</div>
+      <div class="about-stat-stack">
         <div>
-          <div class="stat-number">20<sup>+</sup></div>
-          <div class="stat-desc">Years in creative &amp; media</div>
+          <div class="about-stat-val">20<sup>+</sup></div>
+          <div class="about-stat-label">Years in creative &amp; media</div>
         </div>
         <div>
-          <div class="stat-number">2</div>
-          <div class="stat-desc">Agencies founded</div>
+          <div class="about-stat-val">2</div>
+          <div class="about-stat-label">Agencies founded</div>
         </div>
         <div>
-          <div class="stat-number">Pan</div>
-          <div class="stat-desc">African vision</div>
+          <div class="about-stat-val" style="color:var(--red);">Pan</div>
+          <div class="about-stat-label">African vision</div>
         </div>
       </div>
+    </div>
+    <div class="about-main reveal">
+      <p class="section-label">About</p>
+      <h2 class="section-title">Two decades of creative mastery,</h2>
+      <p class="section-title-light">now driving strategy.</p>
+      <p>
+        Through <strong>Pinkfoot Consult Limited</strong> and <strong>Photomagic Studio</strong>, I built a reputation for design excellence and high-quality audiovisual storytelling for corporate Kenya and beyond.
+      </p>
+      <p>
+        Now I am evolving that foundation — merging design, content strategy, and digital communications into a full-service media powerhouse that helps organizations lead in the digital-first era.
+      </p>
+      <a href="about.html" class="text-link">Full story</a>
     </div>
   </section>
 
   <!-- EXPERTISE -->
   <section class="expertise" id="expertise">
     <div class="expertise-header reveal">
-      <h2>What I Do</h2>
-      <a href="services.html">All services →</a>
+      <div>
+        <p class="section-label">What I Do</p>
+        <h2 class="section-title" style="margin-bottom:0;">Areas of Expertise</h2>
+      </div>
+      <a href="services.html" class="text-link" style="margin-top:0;">All services</a>
     </div>
     <div class="expertise-grid">
-      <div class="expertise-card reveal">
-        <div class="card-number">01</div>
-        <div class="card-icon">✍</div>
-        <div class="card-title">Content Creation &amp; Curation</div>
-        <p class="card-desc">Designing, producing, and repurposing content built for maximum reach and authority across every platform.</p>
+      <div class="e-card reveal">
+        <div class="e-num">01</div>
+        <div class="e-title">Content Creation &amp; Curation</div>
+        <p class="e-desc">Designing, producing, and repurposing content built for maximum reach and authority across every platform.</p>
       </div>
-      <div class="expertise-card reveal">
-        <div class="card-number">02</div>
-        <div class="card-icon">📡</div>
-        <div class="card-title">Digital Media Communications</div>
-        <p class="card-desc">Crafting narratives that resonate — from brand messaging to corporate communications strategy.</p>
+      <div class="e-card reveal">
+        <div class="e-num">02</div>
+        <div class="e-title">Digital Media Communications</div>
+        <p class="e-desc">Crafting narratives that resonate — from brand messaging to full corporate communications strategy.</p>
       </div>
-      <div class="expertise-card reveal">
-        <div class="card-number">03</div>
-        <div class="card-icon">🎥</div>
-        <div class="card-title">Photography &amp; Videography</div>
-        <p class="card-desc">Professional audiovisual storytelling for corporates, campaigns, and executive profiles.</p>
+      <div class="e-card reveal">
+        <div class="e-num">03</div>
+        <div class="e-title">Photography &amp; Videography</div>
+        <p class="e-desc">Professional audiovisual storytelling for corporates, campaigns, and executive profiles.</p>
       </div>
-      <div class="expertise-card reveal">
-        <div class="card-number">04</div>
-        <div class="card-icon">🎙</div>
-        <div class="card-title">Training &amp; Masterclasses</div>
-        <p class="card-desc">Equipping professionals and teams with digital-first skills, content strategy, and influence frameworks.</p>
+      <div class="e-card reveal">
+        <div class="e-num">04</div>
+        <div class="e-title">Training &amp; Masterclasses</div>
+        <p class="e-desc">Equipping professionals and teams with digital-first skills, content strategy, and influence frameworks.</p>
       </div>
     </div>
   </section>
 
   <!-- BLOG PREVIEW -->
-  <section class="blog-section" id="blog">
+  <section class="blog" id="blog">
     <div class="blog-header reveal">
-      <h2>Latest Insights</h2>
-      <a href="blog.html">All articles →</a>
+      <div>
+        <p class="section-label">Thought Leadership</p>
+        <h2 class="section-title" style="margin-bottom:0;">Latest Insights</h2>
+      </div>
+      <a href="blog.html" class="text-link" style="margin-top:0;">All articles</a>
     </div>
     <div class="blog-grid">
-      <a class="blog-card reveal" href="blog.html">
-        <span class="blog-tag">Strategy</span>
-        <div class="blog-date">May 2025</div>
-        <h3 class="blog-title">Why African Professionals Are Still Underinvesting in Personal Brands</h3>
-        <p class="blog-excerpt">Your expertise is only as powerful as your visibility. Here is why the digital-first era demands that professionals stop waiting and start publishing.</p>
-        <span class="blog-read">Read article →</span>
+      <a class="b-card reveal" href="blog.html">
+        <span class="b-tag">Strategy</span>
+        <h3 class="b-title">Why African Professionals Are Still Underinvesting in Personal Brands</h3>
+        <p class="b-excerpt">Your expertise is only as powerful as your visibility. Here is why the digital-first era demands that professionals stop waiting and start publishing.</p>
+        <p class="b-meta">May 2025 &nbsp;·&nbsp; 5 min read</p>
       </a>
-      <a class="blog-card reveal" href="blog.html">
-        <span class="blog-tag">Content</span>
-        <div class="blog-date">April 2025</div>
-        <h3 class="blog-title">One Piece of Content, Seven Formats: The Repurposing Playbook</h3>
-        <p class="blog-excerpt">How to turn a single idea into a week of consistent, high-quality content without burning out.</p>
-        <span class="blog-read">Read article →</span>
+      <a class="b-card reveal" href="blog.html">
+        <span class="b-tag">Content</span>
+        <h3 class="b-title">One Piece of Content, Seven Formats: The Repurposing Playbook</h3>
+        <p class="b-excerpt">How to turn a single idea into a week of consistent, high-quality content without burning out.</p>
+        <p class="b-meta">April 2025 &nbsp;·&nbsp; 4 min read</p>
       </a>
-      <a class="blog-card reveal" href="blog.html">
-        <span class="blog-tag">Leadership</span>
-        <div class="blog-date">March 2025</div>
-        <h3 class="blog-title">The C-Suite Content Playbook: How Executives Are Building Influence Online</h3>
-        <p class="blog-excerpt">Senior leaders who publish consistently attract better opportunities, better talent, and better clients.</p>
-        <span class="blog-read">Read article →</span>
+      <a class="b-card reveal" href="blog.html">
+        <span class="b-tag">Leadership</span>
+        <h3 class="b-title">The C-Suite Content Playbook: How Executives Build Influence Online</h3>
+        <p class="b-excerpt">Senior leaders who publish consistently attract better opportunities, better talent, and better clients.</p>
+        <p class="b-meta">March 2025 &nbsp;·&nbsp; 6 min read</p>
       </a>
     </div>
   </section>
@@ -874,20 +846,20 @@
   <!-- CTA BAND -->
   <section class="cta-band" id="contact">
     <div class="cta-left reveal">
-      <h2>Ready to lead the<br><em>digital conversation?</em></h2>
-      <p>
-        Whether you need a content strategy, a keynote, or a full digital media partner — let's talk about what's possible.
-      </p>
-      <a href="contact.html" class="btn-gold">Start a Conversation</a>
+      <p class="section-label">Let's Work Together</p>
+      <h2>Ready to lead</h2>
+      <p>the digital conversation?</p>
+      <p class="sub">Whether you need a content strategy, a keynote, or a full digital media partner — let's talk about what's possible.</p>
+      <a href="contact.html" class="btn-red">Start a Conversation</a>
     </div>
     <div class="cta-right reveal">
-      <p>Services</p>
+      <p class="section-label">Services</p>
       <ul class="service-list">
-        <li>Content Strategy</li>
-        <li>Digital Media Training</li>
-        <li>Corporate AV Production</li>
-        <li>Personal Brand Consulting</li>
-        <li>Keynotes &amp; Masterclasses</li>
+        <li>Content Strategy <span>→</span></li>
+        <li>Digital Media Training <span>→</span></li>
+        <li>Corporate AV Production <span>→</span></li>
+        <li>Personal Brand Consulting <span>→</span></li>
+        <li>Keynotes &amp; Masterclasses <span>→</span></li>
       </ul>
     </div>
   </section>
@@ -895,36 +867,32 @@
   <!-- FOOTER -->
   <footer>
     <div>
-      <div class="footer-brand">Nderitu<span>.</span>Digital</div>
-      <div class="footer-tagline" style="margin-top:0.25rem;">Nairobi, Kenya &nbsp;·&nbsp; Africa &amp; Beyond</div>
+      <div class="footer-brand">NDERITU<span class="dot">.</span>DIGITAL</div>
+      <div class="footer-sub">Nairobi, Kenya &nbsp;·&nbsp; Africa &amp; Beyond</div>
     </div>
     <ul class="footer-links">
       <li><a href="about.html">About</a></li>
       <li><a href="services.html">Services</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+      <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
     </ul>
   </footer>
 
   <script>
+    // Nav shrink on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
+        if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
       });
-    }, { threshold: 0.12 });
-
+    }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Shrink nav on scroll
-    window.addEventListener('scroll', () => {
-      document.querySelector('nav').style.padding =
-        window.scrollY > 60 ? '0.75rem 4rem' : '1.25rem 4rem';
-    });
   </script>
 </body>
 </html>
