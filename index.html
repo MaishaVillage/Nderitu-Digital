@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nderitu Digital — Digital Media Strategist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #0E0E0E;
+      --paper:  #F5F0E8;
+      --gold:   #C8923A;
+      --gold-lt:#E8B96A;
+      --muted:  #6B6458;
+      --line:   rgba(14,14,14,0.12);
+      --serif:  'Playfair Display', Georgia, serif;
+      --sans:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(245,240,232,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      transition: padding 0.3s;
+    }
+
+    .masthead {
+      font-family: var(--serif);
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .masthead span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      padding: 0.5rem 1.25rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--ink); color: var(--paper); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 4rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-body {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+
+    .btn-ghost {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--ink); }
+    .btn-ghost::after { content: '→'; transition: transform 0.2s; }
+    .btn-ghost:hover::after { transform: translateX(4px); }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-image-placeholder {
+      width: 100%;
+      height: 100%;
+      background:
+        linear-gradient(160deg, #1a1612 0%, #0E0E0E 60%),
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(200,146,58,0.04) 40px,
+          rgba(200,146,58,0.04) 41px
+        );
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 3rem;
+    }
+
+    /* Large decorative initials */
+    .hero-monogram {
+      font-family: var(--serif);
+      font-size: clamp(8rem, 18vw, 18rem);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 0.9;
+      color: rgba(200,146,58,0.12);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      user-select: none;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+    }
+
+    .hero-caption {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .hero-caption p {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-caption strong {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--paper);
+    }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(200,146,58,0.3);
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-item {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0 3rem;
+      color: rgba(245,240,232,0.6);
+      flex-shrink: 0;
+    }
+
+    .ticker-item span { color: var(--gold); margin-right: 3rem; }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .about-label {
+      padding: 4rem;
+      border-right: 1px solid var(--line);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .section-number {
+      font-family: var(--serif);
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(14,14,14,0.08);
+      flex-shrink: 0;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 0.35rem;
+    }
+
+    .about-content {
+      padding: 4rem;
+    }
+
+    .about-content h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-content p {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 60ch;
+      margin-bottom: 1rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-number sup { font-size: 1.2rem; }
+
+    .stat-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── EXPERTISE ── */
+    .expertise {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .expertise-header {
+      padding: 3rem 4rem 2rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .expertise-header h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .expertise-header a {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .expertise-header a:hover { color: var(--gold); }
+
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .expertise-card {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--line);
+      transition: background 0.25s;
+      cursor: default;
+    }
+
+    .expertise-card:last-child { border-right: none; }
+    .expertise-card:hover { background: var(--ink); }
+    .expertise-card:hover .card-number,
+    .expertise-card:hover .card-title,
+    .expertise-card:hover .card-desc { color: var(--paper); }
+    .expertise-card:hover .card-title { color: var(--gold-lt); }
+
+    .card-number {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+      transition: color 0.25s;
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      transition: color 0.25s;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      transition: color 0.25s;
+    }
+
+    /* ── BLOG PREVIEW ── */
+    .blog-section {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .blog-header {
+      padding: 3rem 4rem 2rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .blog-header h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .blog-header a {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .blog-header a:hover { color: var(--gold); }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+    }
+
+    .blog-card {
+      padding: 2.5rem 2.5rem;
+      border-right: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: background 0.2s;
+    }
+
+    .blog-card:last-child { border-right: none; }
+    .blog-card:hover { background: rgba(200,146,58,0.05); }
+
+    .blog-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(200,146,58,0.4);
+      padding: 0.2rem 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .blog-date {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-card:first-child .blog-title { font-size: 1.5rem; }
+    .blog-card:not(:first-child) .blog-title { font-size: 1.1rem; }
+
+    .blog-excerpt {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .blog-read {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--ink);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cta-left {
+      padding: 5rem 4rem;
+      border-right: 1px solid rgba(245,240,232,0.1);
+    }
+
+    .cta-left h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--paper);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-left h2 em { color: var(--gold); font-style: normal; }
+
+    .cta-left p {
+      color: rgba(245,240,232,0.5);
+      font-size: 1rem;
+      max-width: 40ch;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    .cta-right {
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cta-right p {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      margin-bottom: 2rem;
+    }
+
+    .service-list {
+      list-style: none;
+    }
+
+    .service-list li {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: rgba(245,240,232,0.7);
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color 0.2s;
+      cursor: default;
+    }
+
+    .service-list li:hover { color: var(--gold-lt); }
+    .service-list li::after { content: '→'; font-family: var(--sans); font-size: 0.9rem; opacity: 0.4; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(200,146,58,0.2);
+      padding: 2.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--paper);
+    }
+
+    .footer-brand span { color: var(--gold); }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      color: rgba(245,240,232,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 6rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--line); }
+      .hero-right { height: 40vmin; }
+
+      .about-strip { grid-template-columns: 1fr; }
+      .about-label { padding: 2rem 1.5rem; border-right: none; border-bottom: 1px solid var(--line); }
+      .about-content { padding: 2rem 1.5rem; }
+      .stat-row { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+      .expertise-header, .blog-header { padding: 2rem 1.5rem 1.5rem; }
+      .expertise-grid { grid-template-columns: 1fr 1fr; }
+      .expertise-card { border-bottom: 1px solid var(--line); }
+
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-card { border-right: none; border-bottom: 1px solid var(--line); }
+
+      .cta-band { grid-template-columns: 1fr; }
+      .cta-left, .cta-right { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid rgba(245,240,232,0.08); }
+
+      footer { flex-direction: column; gap: 1.5rem; padding: 2rem 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="masthead">Nderitu<span>.</span>Digital</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#blog">Insights</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Work With Me</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Digital Media Strategist &amp; Thought Leader</p>
+      <h1 class="hero-title">
+        Shaping<br>
+        <em>narratives</em><br>
+        that move<br>Africa forward.
+      </h1>
+      <p class="hero-body">
+        I help organizations and professionals harness the power of digital communications — transforming ideas into content that builds influence, authority, and lasting impact.
+      </p>
+      <div class="hero-actions">
+        <a href="#blog" class="btn-primary">Read My Insights</a>
+        <a href="#expertise" class="btn-ghost">Explore Services</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-image-placeholder">
+        <div class="hero-monogram">N</div>
+        <div class="hero-caption">
+          <p>Founder &amp; Principal Strategist</p>
+          <strong>Pinkfoot Consult Limited</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item"><span>✦</span> Digital Media Strategy</span>
+      <span class="ticker-item"><span>✦</span> Content Creation &amp; Curation</span>
+      <span class="ticker-item"><span>✦</span> Corporate Photography &amp; Videography</span>
+      <span class="ticker-item"><span>✦</span> Social Media Authority</span>
+      <span class="ticker-item"><span>✦</span> Training &amp; Masterclasses</span>
+      <span class="ticker-item"><span>✦</span> Thought Leadership</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item"><span>✦</span> Digital Media Strategy</span>
+      <span class="ticker-item"><span>✦</span> Content Creation &amp; Curation</span>
+      <span class="ticker-item"><span>✦</span> Corporate Photography &amp; Videography</span>
+      <span class="ticker-item"><span>✦</span> Social Media Authority</span>
+      <span class="ticker-item"><span>✦</span> Training &amp; Masterclasses</span>
+      <span class="ticker-item"><span>✦</span> Thought Leadership</span>
+    </div>
+  </div>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip" id="about">
+    <div class="about-label reveal">
+      <div class="section-number">01</div>
+      <div class="section-label">About</div>
+    </div>
+    <div class="about-content reveal">
+      <h2>Two decades of creative mastery, now driving strategy.</h2>
+      <p>
+        Through Pinkfoot Consult Limited and Photomagic Studio, I built a reputation for design excellence and high-quality audiovisual storytelling for corporate Kenya and beyond.
+      </p>
+      <p>
+        Now I am evolving that foundation into something bigger — a full-service digital media powerhouse that integrates design, content strategy, and communications to help organizations lead in the digital-first era.
+      </p>
+      <a href="about.html" class="btn-ghost" style="font-size:0.78rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; margin-top:1rem; transition:color 0.2s;">
+        Full story
+      </a>
+      <div class="stat-row">
+        <div>
+          <div class="stat-number">20<sup>+</sup></div>
+          <div class="stat-desc">Years in creative &amp; media</div>
+        </div>
+        <div>
+          <div class="stat-number">2</div>
+          <div class="stat-desc">Agencies founded</div>
+        </div>
+        <div>
+          <div class="stat-number">Pan</div>
+          <div class="stat-desc">African vision</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section class="expertise" id="expertise">
+    <div class="expertise-header reveal">
+      <h2>What I Do</h2>
+      <a href="services.html">All services →</a>
+    </div>
+    <div class="expertise-grid">
+      <div class="expertise-card reveal">
+        <div class="card-number">01</div>
+        <div class="card-icon">✍</div>
+        <div class="card-title">Content Creation &amp; Curation</div>
+        <p class="card-desc">Designing, producing, and repurposing content built for maximum reach and authority across every platform.</p>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="card-number">02</div>
+        <div class="card-icon">📡</div>
+        <div class="card-title">Digital Media Communications</div>
+        <p class="card-desc">Crafting narratives that resonate — from brand messaging to corporate communications strategy.</p>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="card-number">03</div>
+        <div class="card-icon">🎥</div>
+        <div class="card-title">Photography &amp; Videography</div>
+        <p class="card-desc">Professional audiovisual storytelling for corporates, campaigns, and executive profiles.</p>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="card-number">04</div>
+        <div class="card-icon">🎙</div>
+        <div class="card-title">Training &amp; Masterclasses</div>
+        <p class="card-desc">Equipping professionals and teams with digital-first skills, content strategy, and influence frameworks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG PREVIEW -->
+  <section class="blog-section" id="blog">
+    <div class="blog-header reveal">
+      <h2>Latest Insights</h2>
+      <a href="blog.html">All articles →</a>
+    </div>
+    <div class="blog-grid">
+      <a class="blog-card reveal" href="blog.html">
+        <span class="blog-tag">Strategy</span>
+        <div class="blog-date">May 2025</div>
+        <h3 class="blog-title">Why African Professionals Are Still Underinvesting in Personal Brands</h3>
+        <p class="blog-excerpt">Your expertise is only as powerful as your visibility. Here is why the digital-first era demands that professionals stop waiting and start publishing.</p>
+        <span class="blog-read">Read article →</span>
+      </a>
+      <a class="blog-card reveal" href="blog.html">
+        <span class="blog-tag">Content</span>
+        <div class="blog-date">April 2025</div>
+        <h3 class="blog-title">One Piece of Content, Seven Formats: The Repurposing Playbook</h3>
+        <p class="blog-excerpt">How to turn a single idea into a week of consistent, high-quality content without burning out.</p>
+        <span class="blog-read">Read article →</span>
+      </a>
+      <a class="blog-card reveal" href="blog.html">
+        <span class="blog-tag">Leadership</span>
+        <div class="blog-date">March 2025</div>
+        <h3 class="blog-title">The C-Suite Content Playbook: How Executives Are Building Influence Online</h3>
+        <p class="blog-excerpt">Senior leaders who publish consistently attract better opportunities, better talent, and better clients.</p>
+        <span class="blog-read">Read article →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="cta-band" id="contact">
+    <div class="cta-left reveal">
+      <h2>Ready to lead the<br><em>digital conversation?</em></h2>
+      <p>
+        Whether you need a content strategy, a keynote, or a full digital media partner — let's talk about what's possible.
+      </p>
+      <a href="contact.html" class="btn-gold">Start a Conversation</a>
+    </div>
+    <div class="cta-right reveal">
+      <p>Services</p>
+      <ul class="service-list">
+        <li>Content Strategy</li>
+        <li>Digital Media Training</li>
+        <li>Corporate AV Production</li>
+        <li>Personal Brand Consulting</li>
+        <li>Keynotes &amp; Masterclasses</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">Nderitu<span>.</span>Digital</div>
+      <div class="footer-tagline" style="margin-top:0.25rem;">Nairobi, Kenya &nbsp;·&nbsp; Africa &amp; Beyond</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Shrink nav on scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.padding =
+        window.scrollY > 60 ? '0.75rem 4rem' : '1.25rem 4rem';
+    });
+  </script>
+</body>
+</html>
