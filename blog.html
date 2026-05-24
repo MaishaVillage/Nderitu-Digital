@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insights — Nderitu Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white:#FFFFFF; --off:#F7F7F7; --grey-lt:#E8E8E8;
+      --grey:#9A9A9A; --grey-dk:#444444; --black:#0A0A0A;
+      --red:#ED1C24; --red-dk:#C0141B;
+      --font:'Roboto',sans-serif; --ease:cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    html { scroll-behavior: smooth; }
+    body { background:var(--white); color:var(--black); font-family:var(--font); font-weight:300; line-height:1.6; overflow-x:hidden; }
+
+    /* NAV */
+    nav { position:fixed; inset:0 0 auto 0; z-index:200; background:rgba(255,255,255,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--grey-lt); display:flex; align-items:center; justify-content:space-between; padding:0 4rem; height:64px; transition:height 0.3s var(--ease),box-shadow 0.3s; }
+    nav.scrolled { height:52px; box-shadow:0 1px 12px rgba(0,0,0,0.06); }
+    .masthead { font-size:1.15rem; font-weight:900; letter-spacing:-0.01em; color:var(--black); text-decoration:none; }
+    .masthead-dot { color:var(--red); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a { font-size:0.75rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--grey-dk); text-decoration:none; transition:color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--red); }
+    .nav-cta { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--white); background:var(--red); text-decoration:none; padding:0.55rem 1.4rem; transition:background 0.2s; }
+    .nav-cta:hover { background:var(--red-dk); }
+
+    /* PAGE HERO */
+    .page-hero { padding-top:64px; background:var(--black); padding-bottom:0; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .page-hero-inner { padding:4rem 4rem 3rem; }
+    .page-label { font-size:0.65rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--red); margin-bottom:1rem; opacity:0; animation:fadeUp 0.6s 0.1s var(--ease) forwards; }
+    .page-title { font-size:clamp(2.5rem,5vw,4.5rem); font-weight:900; line-height:1.0; letter-spacing:-0.03em; color:var(--white); margin-bottom:0.2rem; opacity:0; animation:fadeUp 0.6s 0.2s var(--ease) forwards; }
+    .page-title-light { font-size:clamp(2.5rem,5vw,4.5rem); font-weight:300; line-height:1.0; letter-spacing:-0.02em; color:rgba(255,255,255,0.3); margin-bottom:2.5rem; opacity:0; animation:fadeUp 0.6s 0.3s var(--ease) forwards; }
+
+    /* FILTER BAR */
+    .filter-bar { display:flex; gap:0; border-top:1px solid rgba(255,255,255,0.08); overflow-x:auto; }
+    .filter-btn { font-size:0.68rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.35); background:none; border:none; border-right:1px solid rgba(255,255,255,0.08); padding:1rem 2rem; cursor:pointer; transition:color 0.2s,background 0.2s; white-space:nowrap; font-family:var(--font); }
+    .filter-btn:hover { color:var(--white); background:rgba(255,255,255,0.04); }
+    .filter-btn.active { color:var(--red); background:rgba(237,28,36,0.06); }
+
+    /* FEATURED POST */
+    .featured { border-bottom:1px solid var(--grey-lt); }
+    .featured-inner { display:grid; grid-template-columns:1fr 1fr; }
+    .featured-img { background:var(--off); min-height:420px; position:relative; overflow:hidden; }
+    .featured-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+    .featured-img-bg { position:absolute; inset:0; background:linear-gradient(135deg,#f0f0f0 0%,#e0e0e0 100%); }
+    .featured-num { position:absolute; font-size:14rem; font-weight:900; color:rgba(0,0,0,0.05); line-height:1; bottom:-0.1em; right:-0.05em; letter-spacing:-0.04em; }
+    .featured-content { padding:3.5rem; display:flex; flex-direction:column; justify-content:center; border-left:none; }
+    .featured-badge { display:inline-block; background:var(--red); color:var(--white); font-size:0.6rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:0.25rem 0.65rem; margin-bottom:1.5rem; width:fit-content; }
+    .featured-title { font-size:clamp(1.4rem,2.5vw,2rem); font-weight:900; line-height:1.2; letter-spacing:-0.02em; color:var(--black); margin-bottom:1rem; }
+    .featured-excerpt { font-size:0.95rem; font-weight:300; color:var(--grey-dk); line-height:1.8; max-width:52ch; margin-bottom:2rem; }
+    .featured-meta { font-size:0.72rem; font-weight:300; color:var(--grey); margin-bottom:1.5rem; }
+    .btn-primary { background:var(--black); color:var(--white); font-family:var(--font); font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; padding:0.85rem 2rem; display:inline-block; transition:background 0.2s,transform 0.15s; }
+    .btn-primary:hover { background:var(--red); transform:translateY(-1px); }
+
+    /* ARTICLES GRID */
+    .articles-section { padding:0; }
+    .articles-header { padding:3rem 4rem 2rem; border-bottom:1px solid var(--grey-lt); display:flex; align-items:baseline; justify-content:space-between; }
+    .section-label { font-size:0.65rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--red); margin-bottom:0.4rem; }
+    .section-title { font-size:1.6rem; font-weight:900; letter-spacing:-0.025em; color:var(--black); }
+    .articles-count { font-size:0.75rem; font-weight:300; color:var(--grey); }
+
+    .articles-grid { display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--grey-lt); }
+
+    .a-card { display:block; text-decoration:none; color:inherit; padding:2.5rem; border-right:1px solid var(--grey-lt); border-bottom:1px solid var(--grey-lt); transition:background 0.2s var(--ease); position:relative; overflow:hidden; }
+    .a-card:nth-child(3n) { border-right:none; }
+    .a-card:nth-last-child(-n+3) { border-bottom:none; }
+    .a-card:hover { background:var(--off); }
+    .a-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform 0.3s var(--ease); }
+    .a-card:hover::before { transform:scaleX(1); }
+
+    .a-card-img { width:100%; height:160px; background:var(--grey-lt); margin-bottom:1.5rem; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .a-card-img-num { font-size:5rem; font-weight:900; color:rgba(0,0,0,0.07); line-height:1; }
+
+    .a-tag { font-size:0.6rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--red); margin-bottom:0.75rem; display:block; }
+    .a-title { font-size:1rem; font-weight:700; line-height:1.3; color:var(--black); margin-bottom:0.65rem; }
+    .a-excerpt { font-size:0.82rem; font-weight:300; color:var(--grey); line-height:1.7; margin-bottom:1.25rem; }
+    .a-meta { font-size:0.68rem; font-weight:300; color:var(--grey); display:flex; align-items:center; gap:0.75rem; }
+    .a-meta-dot { color:var(--grey-lt); }
+
+    /* NEWSLETTER STRIP */
+    .newsletter { background:var(--off); border-bottom:1px solid var(--grey-lt); display:grid; grid-template-columns:1fr 1fr; }
+    .newsletter-left { padding:4rem; border-right:1px solid var(--grey-lt); }
+    .newsletter-left h3 { font-size:1.6rem; font-weight:900; letter-spacing:-0.025em; color:var(--black); margin-bottom:0.5rem; }
+    .newsletter-left p { font-size:0.95rem; font-weight:300; color:var(--grey-dk); max-width:42ch; line-height:1.75; }
+    .newsletter-right { padding:4rem; display:flex; flex-direction:column; justify-content:center; gap:1rem; }
+    .newsletter-form { display:flex; gap:0; }
+    .newsletter-input { flex:1; border:1.5px solid var(--grey-lt); background:var(--white); font-family:var(--font); font-size:0.85rem; font-weight:300; color:var(--black); padding:0.85rem 1.1rem; outline:none; transition:border-color 0.2s; }
+    .newsletter-input:focus { border-color:var(--black); }
+    .newsletter-input::placeholder { color:var(--grey); }
+    .newsletter-submit { background:var(--black); color:var(--white); font-family:var(--font); font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border:none; padding:0.85rem 1.5rem; cursor:pointer; transition:background 0.2s; white-space:nowrap; }
+    .newsletter-submit:hover { background:var(--red); }
+    .newsletter-note { font-size:0.7rem; font-weight:300; color:var(--grey); }
+
+    /* FOOTER */
+    footer { background:var(--black); border-top:1px solid rgba(255,255,255,0.06); padding:2rem 4rem; display:flex; align-items:center; justify-content:space-between; }
+    .footer-brand { font-size:0.95rem; font-weight:900; color:var(--white); }
+    .footer-brand .dot { color:var(--red); }
+    .footer-sub { font-size:0.72rem; font-weight:300; color:rgba(255,255,255,0.25); margin-top:0.2rem; letter-spacing:0.06em; }
+    .footer-links { display:flex; gap:2rem; list-style:none; }
+    .footer-links a { font-size:0.68rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.3); text-decoration:none; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--red); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity 0.65s var(--ease),transform 0.65s var(--ease); }
+    .reveal.in { opacity:1; transform:none; }
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      nav{padding:0 1.5rem;} .nav-links{display:none;}
+      .page-hero-inner{padding:3rem 1.5rem 2rem;}
+      .featured-inner{grid-template-columns:1fr;} .featured-img{min-height:220px;} .featured-content{padding:2rem 1.5rem;}
+      .articles-header{padding:2rem 1.5rem 1.5rem;}
+      .articles-grid{grid-template-columns:1fr 1fr;}
+      .a-card:nth-child(3n){border-right:1px solid var(--grey-lt);}
+      .a-card:nth-child(2n){border-right:none;}
+      .newsletter{grid-template-columns:1fr;} .newsletter-left,.newsletter-right{padding:2.5rem 1.5rem; border-right:none; border-bottom:1px solid var(--grey-lt);}
+      footer{flex-direction:column;gap:1.5rem;padding:2rem 1.5rem;text-align:center;}
+    }
+    @media(max-width:600px){
+      .articles-grid{grid-template-columns:1fr;}
+      .a-card{border-right:none!important;}
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="masthead">NDERITU<span class="masthead-dot">.</span>DIGITAL</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html" class="active">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Work With Me</a>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-label">Insights &amp; Articles</p>
+      <h1 class="page-title">Ideas that move</h1>
+      <p class="page-title-light">Africa's digital story forward.</p>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterPosts('all', this)">All Articles</button>
+      <button class="filter-btn" onclick="filterPosts('strategy', this)">Strategy</button>
+      <button class="filter-btn" onclick="filterPosts('content', this)">Content</button>
+      <button class="filter-btn" onclick="filterPosts('leadership', this)">Leadership</button>
+      <button class="filter-btn" onclick="filterPosts('storytelling', this)">Storytelling</button>
+      <button class="filter-btn" onclick="filterPosts('community', this)">Community</button>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <section class="featured reveal">
+    <div class="featured-inner">
+      <div class="featured-img">
+        <div class="featured-img-bg"></div>
+        <div class="featured-num">01</div>
+      </div>
+      <div class="featured-content">
+        <span class="featured-badge">Featured</span>
+        <h2 class="featured-title">Why African Professionals Are Still Underinvesting in Personal Brands</h2>
+        <p class="featured-excerpt">Your expertise is only as powerful as your visibility. In the digital-first era, staying quiet is no longer a neutral choice — it is a decision to fall behind. Here is why Africa's most talented professionals need to start publishing now.</p>
+        <p class="featured-meta">May 2025 &nbsp;·&nbsp; 6 min read &nbsp;·&nbsp; Strategy</p>
+        <a href="article-1.html" class="btn-primary">Read Article →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLES GRID -->
+  <section class="articles-section">
+    <div class="articles-header reveal">
+      <div>
+        <p class="section-label">All Articles</p>
+        <h2 class="section-title">Latest thinking.</h2>
+      </div>
+      <span class="articles-count">5 articles</span>
+    </div>
+    <div class="articles-grid" id="articles-grid">
+
+      <a class="a-card reveal" href="article-2.html" data-category="content">
+        <div class="a-card-img"><div class="a-card-img-num">02</div></div>
+        <span class="a-tag">Content</span>
+        <h3 class="a-title">One Piece of Content, Seven Formats: The Repurposing Playbook</h3>
+        <p class="a-excerpt">How to turn a single idea into a full week of consistent, high-quality content — without burning out or starting from scratch every time.</p>
+        <div class="a-meta"><span>April 2025</span><span class="a-meta-dot">·</span><span>4 min read</span></div>
+      </a>
+
+      <a class="a-card reveal" href="article-3.html" data-category="leadership">
+        <div class="a-card-img"><div class="a-card-img-num">03</div></div>
+        <span class="a-tag">Leadership</span>
+        <h3 class="a-title">The C-Suite Content Playbook: How Executives Build Influence Online</h3>
+        <p class="a-excerpt">Senior leaders who publish consistently attract better opportunities, better talent, and better clients. Here is the framework I use with executive clients.</p>
+        <div class="a-meta"><span>March 2025</span><span class="a-meta-dot">·</span><span>5 min read</span></div>
+      </a>
+
+      <a class="a-card reveal" href="article-4.html" data-category="storytelling">
+        <div class="a-card-img"><div class="a-card-img-num">04</div></div>
+        <span class="a-tag">Storytelling</span>
+        <h3 class="a-title">Visual Storytelling: Why Your Brand Needs More Than Words</h3>
+        <p class="a-excerpt">In a world of shrinking attention spans, the brands winning online are not writing more — they are showing more. A deep dive into visual-first communication strategy.</p>
+        <div class="a-meta"><span>February 2025</span><span class="a-meta-dot">·</span><span>5 min read</span></div>
+      </a>
+
+      <a class="a-card reveal" href="article-5.html" data-category="community">
+        <div class="a-card-img"><div class="a-card-img-num">05</div></div>
+        <span class="a-tag">Community</span>
+        <h3 class="a-title">How to Build a Digital Community That Actually Engages</h3>
+        <p class="a-excerpt">Most brands broadcast. The ones building real communities listen, respond, and create belonging. Here is what separates a following from a community.</p>
+        <div class="a-meta"><span>January 2025</span><span class="a-meta-dot">·</span><span>6 min read</span></div>
+      </a>
+
+      <!-- PLACEHOLDER — next article slot -->
+      <div class="a-card reveal" style="border:1.5px dashed var(--grey-lt); background:var(--off); cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:0.75rem; min-height:280px;">
+        <div style="font-size:2rem; color:var(--grey-lt);">+</div>
+        <p style="font-size:0.8rem; font-weight:500; color:var(--grey); letter-spacing:0.06em;">Your next article<br>coming soon</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="newsletter-left reveal">
+      <p class="section-label">Stay in the loop</p>
+      <h3>Get new insights<br>in your inbox.</h3>
+      <p style="margin-top:0.75rem;">No noise. Just one well-considered piece on digital media, content strategy, or thought leadership — when it is ready.</p>
+    </div>
+    <div class="newsletter-right reveal">
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" placeholder="your@email.com" />
+        <button class="newsletter-submit">Subscribe</button>
+      </div>
+      <p class="newsletter-note">No spam, ever. Unsubscribe any time.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">NDERITU<span class="dot">.</span>DIGITAL</div>
+      <div class="footer-sub">Nairobi, Kenya &nbsp;·&nbsp; Africa &amp; Beyond</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    function filterPosts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.a-card[data-category]').forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

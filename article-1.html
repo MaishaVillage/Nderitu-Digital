@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why African Professionals Are Still Underinvesting in Personal Brands — Nderitu Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --white:#FFFFFF; --off:#F7F7F7; --grey-lt:#E8E8E8;
+      --grey:#9A9A9A; --grey-dk:#444444; --black:#0A0A0A;
+      --red:#ED1C24; --red-dk:#C0141B;
+      --font:'Roboto',sans-serif; --ease:cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--white); color:var(--black); font-family:var(--font); font-weight:300; line-height:1.6; overflow-x:hidden; }
+
+    /* NAV */
+    nav { position:fixed; inset:0 0 auto 0; z-index:200; background:rgba(255,255,255,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--grey-lt); display:flex; align-items:center; justify-content:space-between; padding:0 4rem; height:64px; transition:height 0.3s var(--ease),box-shadow 0.3s; }
+    nav.scrolled { height:52px; box-shadow:0 1px 12px rgba(0,0,0,0.06); }
+    .masthead { font-size:1.15rem; font-weight:900; letter-spacing:-0.01em; color:var(--black); text-decoration:none; }
+    .masthead-dot { color:var(--red); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a { font-size:0.75rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--grey-dk); text-decoration:none; transition:color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--red); }
+    .nav-cta { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--white); background:var(--red); text-decoration:none; padding:0.55rem 1.4rem; transition:background 0.2s; }
+    .nav-cta:hover { background:var(--red-dk); }
+
+    /* ARTICLE HEADER */
+    .article-header { padding-top:64px; border-bottom:1px solid var(--grey-lt); }
+    .article-header-inner { max-width:780px; margin:0 auto; padding:4rem 2rem 3rem; }
+    .back-link { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--grey); text-decoration:none; margin-bottom:2.5rem; transition:color 0.2s; }
+    .back-link:hover { color:var(--red); }
+    .back-link::before { content:'←'; }
+    .article-tag { display:inline-block; font-size:0.6rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--red); border:1px solid rgba(237,28,36,0.3); padding:0.2rem 0.6rem; margin-bottom:1.25rem; }
+    .article-title { font-size:clamp(1.8rem,4vw,3rem); font-weight:900; line-height:1.1; letter-spacing:-0.025em; color:var(--black); margin-bottom:1rem; }
+    .article-meta { font-size:0.78rem; font-weight:300; color:var(--grey); display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .article-meta strong { font-weight:700; color:var(--black); }
+    .article-meta-dot { color:var(--grey-lt); }
+
+    /* ARTICLE HERO IMAGE */
+    .article-hero-img { width:100%; height:400px; background:linear-gradient(135deg,#f0f0f0,#e0e0e0); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; border-bottom:1px solid var(--grey-lt); }
+    .article-hero-num { font-size:20rem; font-weight:900; color:rgba(0,0,0,0.04); line-height:1; letter-spacing:-0.04em; user-select:none; }
+    .article-hero-label { position:absolute; bottom:1.5rem; left:2rem; font-size:0.65rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey); }
+
+    /* ARTICLE BODY */
+    .article-layout { display:grid; grid-template-columns:1fr 280px; gap:0; border-bottom:1px solid var(--grey-lt); }
+
+    .article-body { padding:4rem 4rem 4rem 0; margin-left:auto; max-width:680px; width:100%; border-right:1px solid var(--grey-lt); }
+    .article-body > * + * { margin-top:1.5rem; }
+
+    .article-body p { font-size:1rem; font-weight:300; color:var(--grey-dk); line-height:1.85; }
+    .article-body h2 { font-size:1.35rem; font-weight:900; letter-spacing:-0.02em; color:var(--black); margin-top:2.5rem; margin-bottom:0.75rem; }
+    .article-body h3 { font-size:1.1rem; font-weight:700; color:var(--black); margin-top:2rem; margin-bottom:0.5rem; }
+    .article-body strong { font-weight:700; color:var(--black); }
+
+    /* Pull quote */
+    .pull-quote { border-left:3px solid var(--red); padding:1rem 0 1rem 1.75rem; margin:2.5rem 0; }
+    .pull-quote p { font-size:1.15rem; font-weight:400; color:var(--black); line-height:1.6; font-style:normal; }
+
+    /* Key points list */
+    .key-points { background:var(--off); padding:1.75rem 2rem; margin:2rem 0; }
+    .key-points-title { font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--red); margin-bottom:1rem; }
+    .key-points ul { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
+    .key-points li { font-size:0.9rem; font-weight:400; color:var(--black); padding-left:1.25rem; position:relative; }
+    .key-points li::before { content:'→'; position:absolute; left:0; color:var(--red); font-size:0.75rem; }
+
+    /* Article sidebar */
+    .article-sidebar { padding:4rem 2.5rem; display:flex; flex-direction:column; gap:3rem; }
+
+    .sidebar-author { display:flex; flex-direction:column; gap:0.75rem; padding-bottom:2rem; border-bottom:1px solid var(--grey-lt); }
+    .sidebar-author-label { font-size:0.6rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--red); }
+    .sidebar-author-name { font-size:1rem; font-weight:700; color:var(--black); }
+    .sidebar-author-role { font-size:0.8rem; font-weight:300; color:var(--grey); }
+
+    .sidebar-block-title { font-size:0.6rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--grey); margin-bottom:1rem; }
+    .sidebar-tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .sidebar-tag { font-size:0.62rem; font-weight:500; letter-spacing:0.1em; color:var(--grey-dk); border:1px solid var(--grey-lt); padding:0.25rem 0.6rem; }
+
+    .related-list { list-style:none; display:flex; flex-direction:column; gap:1rem; }
+    .related-item a { text-decoration:none; color:var(--black); }
+    .related-item-tag { font-size:0.6rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--red); margin-bottom:0.25rem; }
+    .related-item-title { font-size:0.85rem; font-weight:700; line-height:1.3; color:var(--black); transition:color 0.2s; }
+    .related-item a:hover .related-item-title { color:var(--red); }
+
+    /* CTA inside article */
+    .article-cta { background:var(--black); padding:3rem 4rem; display:grid; grid-template-columns:1fr auto; align-items:center; gap:3rem; }
+    .article-cta h3 { font-size:1.3rem; font-weight:900; color:var(--white); letter-spacing:-0.02em; margin-bottom:0.4rem; }
+    .article-cta p { font-size:0.85rem; font-weight:300; color:rgba(255,255,255,0.45); }
+    .btn-red { background:var(--red); color:var(--white); font-family:var(--font); font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; padding:0.85rem 2rem; display:inline-block; transition:background 0.2s; white-space:nowrap; }
+    .btn-red:hover { background:var(--red-dk); }
+
+    /* FOOTER */
+    footer { background:var(--black); border-top:1px solid rgba(255,255,255,0.06); padding:2rem 4rem; display:flex; align-items:center; justify-content:space-between; }
+    .footer-brand { font-size:0.95rem; font-weight:900; color:var(--white); }
+    .footer-brand .dot { color:var(--red); }
+    .footer-sub { font-size:0.72rem; font-weight:300; color:rgba(255,255,255,0.25); margin-top:0.2rem; letter-spacing:0.06em; }
+    .footer-links { display:flex; gap:2rem; list-style:none; }
+    .footer-links a { font-size:0.68rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.3); text-decoration:none; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--red); }
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      nav{padding:0 1.5rem;} .nav-links{display:none;}
+      .article-header-inner{padding:3rem 1.5rem 2rem;}
+      .article-hero-img{height:220px;} .article-hero-num{font-size:10rem;}
+      .article-layout{grid-template-columns:1fr;}
+      .article-body{padding:2.5rem 1.5rem; border-right:none; max-width:100%;}
+      .article-sidebar{padding:2.5rem 1.5rem; border-top:1px solid var(--grey-lt);}
+      .article-cta{grid-template-columns:1fr; gap:1.5rem; padding:2.5rem 1.5rem;}
+      footer{flex-direction:column;gap:1.5rem;padding:2rem 1.5rem;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="masthead">NDERITU<span class="masthead-dot">.</span>DIGITAL</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html" class="active">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Work With Me</a>
+  </nav>
+
+  <!-- ARTICLE HEADER -->
+  <header class="article-header">
+    <div class="article-header-inner">
+      <a href="blog.html" class="back-link">Back to Insights</a>
+      <div class="article-tag">Strategy</div>
+      <h1 class="article-title">Why African Professionals Are Still Underinvesting in Personal Brands</h1>
+      <div class="article-meta">
+        <span><strong>Nderitu</strong></span>
+        <span class="article-meta-dot">·</span>
+        <span>May 2025</span>
+        <span class="article-meta-dot">·</span>
+        <span>6 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO IMAGE -->
+  <div class="article-hero-img">
+    <div class="article-hero-num">01</div>
+    <span class="article-hero-label">Replace this with your article cover image</span>
+  </div>
+
+  <!-- BODY + SIDEBAR -->
+  <div class="article-layout">
+    <article class="article-body" style="padding-left:4rem;">
+
+      <p>
+        Across boardrooms in Nairobi, Lagos, Johannesburg, and Accra, there are brilliant professionals with decades of expertise, sharp insights, and proven track records — who are completely invisible online. Their ideas stay in meeting rooms. Their knowledge stays in their heads. And their influence stays local when it could be continental.
+      </p>
+
+      <p>
+        This is the personal brand gap in Africa. And it is costing professionals more than they realise.
+      </p>
+
+      <div class="pull-quote">
+        <p>"Your expertise is only as powerful as its visibility. In the digital-first era, silence is not neutrality — it is a decision to fall behind."</p>
+      </div>
+
+      <h2>Why professionals hold back</h2>
+
+      <p>
+        When I ask professionals why they do not publish, the answers follow a familiar pattern. <strong>"I do not have time."</strong> <strong>"I am not sure what to say."</strong> <strong>"I do not want to look like I am showing off."</strong> Sometimes: <strong>"Social media is not for serious people."</strong>
+      </p>
+
+      <p>
+        These are understandable hesitations. But they are built on a misunderstanding of what personal branding actually is. It is not self-promotion for its own sake. It is the deliberate act of making your expertise findable, your perspective shareable, and your credibility visible to the people who need to know you exist.
+      </p>
+
+      <div class="key-points">
+        <p class="key-points-title">The cost of staying invisible</p>
+        <ul>
+          <li>Opportunities go to people who are visible, not necessarily more qualified</li>
+          <li>Clients research you online before they ever call you</li>
+          <li>Your competitors are publishing — and building authority while you wait</li>
+          <li>Your network shrinks while theirs grows</li>
+          <li>You work harder for referrals that should find you organically</li>
+        </ul>
+      </div>
+
+      <h2>The digital shift has changed the rules</h2>
+
+      <p>
+        A decade ago, your reputation was built in rooms — conference halls, boardrooms, networking dinners. Today it is built on feeds. LinkedIn has over 1 million users in Kenya alone. Across Africa the platform is growing faster than almost any other region in the world. The conversation about African business, policy, innovation, and culture is happening in public — and the people shaping it are those who show up consistently.
+      </p>
+
+      <p>
+        This does not mean you need to post every day, chase trends, or perform for the algorithm. It means you need a deliberate publishing strategy — one that reflects your expertise, serves your audience, and builds your authority over time.
+      </p>
+
+      <h2>What getting it right looks like</h2>
+
+      <p>
+        The professionals I have seen build genuine influence online share a few things in common. They pick a lane — a specific area of expertise they own. They publish consistently, not frantically. They write and speak from genuine experience, not generic advice. And they treat their content as a long-term asset, not a short-term campaign.
+      </p>
+
+      <p>
+        The good news is that the bar is low. Most professionals are not publishing at all. A single well-written article per month, shared with intention, puts you ahead of ninety percent of your peers.
+      </p>
+
+      <h2>Where to start</h2>
+
+      <p>
+        Start with one question: <strong>what do you know that other people in your industry do not?</strong> That knowledge — those hard-won insights from years of work — is your content. Write it down. Share it. Do it again next month.
+      </p>
+
+      <p>
+        The digital conversation about Africa's future is happening right now. The only question is whether you are in it.
+      </p>
+
+    </article>
+
+    <aside class="article-sidebar">
+      <div class="sidebar-author">
+        <p class="sidebar-author-label">Written by</p>
+        <p class="sidebar-author-name">Nderitu</p>
+        <p class="sidebar-author-role">Digital Media Strategist &amp; Thought Leader<br>Founder, Pinkfoot Consult Limited</p>
+        <a href="about.html" style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);text-decoration:none;margin-top:0.25rem;">About Nderitu →</a>
+      </div>
+
+      <div>
+        <p class="sidebar-block-title">Topics</p>
+        <div class="sidebar-tags">
+          <span class="sidebar-tag">Strategy</span>
+          <span class="sidebar-tag">Personal Brand</span>
+          <span class="sidebar-tag">Africa</span>
+          <span class="sidebar-tag">Digital Media</span>
+          <span class="sidebar-tag">LinkedIn</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="sidebar-block-title">Related Articles</p>
+        <ul class="related-list">
+          <li class="related-item">
+            <a href="article-3.html">
+              <p class="related-item-tag">Leadership</p>
+              <p class="related-item-title">The C-Suite Content Playbook</p>
+            </a>
+          </li>
+          <li class="related-item">
+            <a href="article-2.html">
+              <p class="related-item-tag">Content</p>
+              <p class="related-item-title">One Piece of Content, Seven Formats</p>
+            </a>
+          </li>
+          <li class="related-item">
+            <a href="article-4.html">
+              <p class="related-item-tag">Storytelling</p>
+              <p class="related-item-title">Why Your Brand Needs More Than Words</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ARTICLE CTA -->
+  <div class="article-cta">
+    <div>
+      <h3>Want to build your own digital presence?</h3>
+      <p>I work with professionals and organisations to develop content strategies that build real authority. Let's talk.</p>
+    </div>
+    <a href="contact.html" class="btn-red">Work With Me</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">NDERITU<span class="dot">.</span>DIGITAL</div>
+      <div class="footer-sub">Nairobi, Kenya &nbsp;·&nbsp; Africa &amp; Beyond</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  </script>
+</body>
+</html>
